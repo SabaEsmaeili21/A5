@@ -55,8 +55,9 @@ void GameSystem::PostInvitation(std::string username, std::string matchTypeStr){
     Player* player = dynamic_cast<Player*>(usersManager_.FindUser(username));
     if(!player)
         throw PermissionDenied();
-    if(matchTypeStr != "casual")
+    if(matchTypeStr != "casual" && matchTypeStr != "ranked")
         throw BadRequest();
+    
     invitationsManager_.AddInvitation(login_.CurrentPlayer().Username(), username, GetMatchType.at(matchTypeStr));
 }
 

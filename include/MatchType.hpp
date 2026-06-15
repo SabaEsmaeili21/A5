@@ -5,11 +5,13 @@
 #include <map>
 
 enum class MatchType{
-    CASUAL
+    CASUAL,
+    RANKED
 };
 
 const std::map<std::string, MatchType> GetMatchType{
-    {"casual", MatchType::CASUAL}
+    {"casual", MatchType::CASUAL},
+    {"ranked", MatchType::RANKED}
 };
 
 

@@ -64,8 +64,7 @@ string CommandHandler::HandlePost(const Command& command) {
         case CommandType::Invitation:
             game_.PostInvitation(RequireArgument(command, "username"), RequireArgument(command, "match_type"));
             return OutputFormatter::Ok();
-          
-
+    
         case CommandType::StartMatch:
             game_.StartMatch(stoi(RequireArgument(command, "invitation_id")));
             return OutputFormatter::Ok();
