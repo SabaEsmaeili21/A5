@@ -36,9 +36,15 @@ class GameSystem{
     std::vector<OpponentView> RankedMatchOpponents() const;
 
     private:
-    void StartMatchBetween(Player& sender, Player& receiver);
+    int CreateMatch(const Player& sender, const Player& receiver, MatchType matchType);
+    void MarkPlayersInMatch(Player& sender, Player& receiver, int matchId);
     void FinishMatch(const Match& match);
     int CalculateXpChange(int xp1, int xp2);
+    void ValidateMatchStart(const Player& sender, const Player& receiver, MatchType matchType, int invitationId);
+    void EnsurePlayerLoggedIn() const;
+    void EnsureLoggedIn() const;
+    void EnsureAdminLoggedIn() const;
+
     LoginManager login_;
     UsersManager usersManager_;
     InvitationsManager invitationsManager_;

@@ -14,6 +14,7 @@ class Invitation{
     std::string GetSenderUsername() const;
     bool IsReceiver(std::string username) const;
     ReceivedInvitationView ToReceivedInvitationView() const;
+    MatchType GetMatchType() const;
     private:
     std::string senderUsername_;
     std::string receiverUsername_;

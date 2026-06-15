@@ -43,7 +43,8 @@ void Match::ResolveRound(){
     if (player2Move == Move::RELOAD)
         player2Bullets_++;
 
-    switch (round.Outcome()) {
+    RoundOutcome outcome = ResolveOutcome(round);
+    switch (outcome) {
         case RoundOutcome::Player1Wins:
             winnerUsername_ = player1Username_;
             isFinished_ = true;
@@ -115,4 +116,8 @@ std::vector<std::pair<Move, Move>> Match::RoundHistory(std::string username) con
         history.push_back({opponentMove, yourMove});
     }
     return history;
+}
+
+int Match::GetHealthBonus() const {
+        return 0;
 }

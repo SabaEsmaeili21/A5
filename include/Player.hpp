@@ -18,13 +18,16 @@ class Player : public User{
     bool IsInGame() const;
     void StartMatch(int matchId);
     int CurrentMatchId()const;
-    void ApplyWin(int deltaXp);
-    void ApplyLoss(int deltaXp);
+    void ApplyCasualWin(int deltaXp);
+    void ApplyCasualLoss(int deltaXp);
     int Xp() const;
     void FinishMatch();
     ProfileView GetProfile() const;
     Rank GetRank() const;
     bool IsRank(Rank rank) const;
+    void ApplyRankedWin(int deltaRp, int healthBonus);
+    void ApplyRankedLoss(int deltaRp);
+    int CalculateRpChange() const;
 
     private:
     int winCount_ = 0;

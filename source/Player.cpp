@@ -28,11 +28,11 @@ int Player::CurrentMatchId()const{
     return currentMatchId_;
 }
 
-void Player::ApplyWin(int deltaXp){
+void Player::ApplyCasualWin(int deltaXp){
     xp_ += deltaXp;
     winCount_ ++;
 }
-void Player::ApplyLoss(int deltaXp){
+void Player::ApplyCasualLoss(int deltaXp){
     xp_ -= deltaXp;
     lossCount_++;
 }
@@ -56,4 +56,27 @@ Rank Player::GetRank() const{
 
 bool Player::IsRank(Rank rank) const{
     return (FromRankPoint(rp_) == rank);
+}
+
+void Player::ApplyRankedWin(int deltaRp, int healthBonus){
+    rp_ += deltaRp + healthBonus;
+    winCount_ ++;
+}
+
+void Player::ApplyRankedLoss(int deltaRp){
+    rp_ -= deltaRp;
+    lossCount_ ++;
+}
+
+int Player::CalculateRpChange() const{
+    switch(FromRankPoint(rp_)){
+        case(Rank::Bronze):
+            return 75;
+        case(Rank::Silver):
+            return 100;
+        case(Rank::Gold):
+            return 125;
+        case(Rank::Platinum):
+            return 150;
+    }
 }

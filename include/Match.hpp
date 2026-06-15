@@ -4,21 +4,29 @@
 #include <map>
 #include "Round.hpp"
 #include "MatchStatusView.hpp"
+#include "MatchType.hpp"
 
 class Match{
     public:
     
-    Match(std::string player1Username, std::string player2Username,
-        int bullet1 = 1, int bullet2 = 1):
-    player1Username_(player1Username),player2Username_(player2Username),
-    player1Bullets_(bullet1), player2Bullets_(bullet2){
-        rounds_.emplace(1, Round{});
-    }
+    virtual ~Match() = default;
     void ProcessMove(Move move, std::string username);
     bool IsFinished() const;
     std::string WinnerUsername() const;
     std::string LoserUsername() const;
     MatchStatusView MatchStatus(std::string username) const;
+    virtual MatchType Type() const = 0;
+    virtual int GetHealthBonus() const;
+
+    protected:
+    Match(std::string player1Username, std::string player2Username,
+        int bullet1, int bullet2):
+    player1Username_(player1Username),player2Username_(player2Username),
+    player1Bullets_(bullet1), player2Bullets_(bullet2){
+        rounds_.emplace(1, Round{});
+    }
+
+    virtual RoundOutcome ResolveOutcome(const Round& round) = 0;
 
     private:
     void ResolveRound();

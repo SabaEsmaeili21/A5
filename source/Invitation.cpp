@@ -13,3 +13,7 @@ bool Invitation::IsReceiver(std::string username) const{
 ReceivedInvitationView Invitation::ToReceivedInvitationView() const{
     return ReceivedInvitationView{senderUsername_, matchType_};
 }
+
+MatchType Invitation::GetMatchType() const{
+    return matchType_;
+}

@@ -24,20 +24,10 @@ bool Round::IsComplete() const{
            player2Move_ != Move::PENDING;
 }
 
-RoundOutcome Round::Outcome() const{
-    if(player1Move_ == Move::SHOOT && player2Move_ == Move::RELOAD)
-        return RoundOutcome::Player1Wins;
-
-    if(player2Move_ == Move::SHOOT && player1Move_ == Move::RELOAD)
-        return RoundOutcome::Player2Wins;
-    
-    return RoundOutcome::NoWinner;        
+Move Round::Player2Move() const{
+    return player2Move_;
 }
 
 Move Round::Player1Move() const{
     return player1Move_;
-}
-
-Move Round::Player2Move() const{
-    return player2Move_;
 }

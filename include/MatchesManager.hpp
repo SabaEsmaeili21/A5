@@ -2,15 +2,18 @@
 #define __MATCHESMANAGER_HPP__
 #include <iostream>
 #include <map>
+#include <memory>
 #include "Match.hpp"
 
 class MatchesManager{
     public:
     MatchesManager() = default;
-    int AddMatch(Match match);
+    int AddCasualMatch(std::string player1Username, std::string player2Username);
+    int AddRankedMatch(std::string player1Username, std::string player2Username);
+
     Match& Find(int id);
     private:
-    std::map<int, Match> matches_;
+    std::map<int, std::unique_ptr<Match>> matches_;
 };
 
 #endif

@@ -32,4 +32,11 @@ class PermissionDenied : public AppException{
     PermissionDenied() : AppException("Permission Denied"){}
 };
 
+
+class LevelMismatch : public AppException{
+    public:
+    LevelMismatch() : AppException("Level Mismatch"){}
+};
+
+
 #endif
