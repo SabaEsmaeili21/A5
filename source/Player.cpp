@@ -1,6 +1,6 @@
 #include <iostream>
 #include "Player.hpp"
-#include "CasualOpponent.hpp"
+#include "OpponentView.hpp"
 using namespace std;
 
 void Player::SetCasualMatchReady(bool status){
@@ -11,7 +11,7 @@ bool Player::IsReadyForCasualMatch()const{
     return readyForCasualMatch_;
 }
 
-CasualOpponent Player::GetCasualOpponentInfo()const{
+OpponentView Player::GetCasualOpponentInfo()const{
     return {username_, xp_};
 }
 
@@ -48,4 +48,12 @@ int Player::Xp() const{
 
 ProfileView Player::GetProfile() const{
     return ProfileView {username_, xp_, winCount_, lossCount_};
+}
+
+Rank Player::GetRank() const{
+    return FromRankPoint(rp_);
+}
+
+bool Player::IsRank(Rank rank) const{
+    return (FromRankPoint(rp_) == rank);
 }

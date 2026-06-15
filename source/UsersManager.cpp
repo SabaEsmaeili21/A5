@@ -35,9 +35,9 @@ User* UsersManager::FindUser(string username) const{
         return &(*playerIt->second);
 }
 
-vector<CasualOpponent> UsersManager::CasualMatchOpponents(std::string requesterUsername) const{
+vector<OpponentView> UsersManager::CasualMatchOpponents(std::string requesterUsername) const{
     
-    vector<CasualOpponent> casualOpponent;
+    vector<OpponentView> casualOpponent;
 
     for(const auto& [username, player] : players_){
         if(player->IsReadyForCasualMatch() && player->Username() != requesterUsername)
@@ -79,3 +79,15 @@ bool UsersManager::UsernameExists(std::string username) const{
         return true;
 }
 
+std::vector<OpponentView> UsersManager::RankedMatchOpponents(std::string requesterUsername, Rank rank) const{
+    vector<OpponentView> rankedOpponent;
+
+    for(const auto& [username, player] : players_){
+        if(player->IsRank(rank) && player->Username() != requesterUsername)
+            rankedOpponent.push_back(player->GetCasualOpponentInfo());
+    }
+    if(rankedOpponent.empty())
+        throw Empty();
+
+    return rankedOpponent;
+}

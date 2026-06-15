@@ -91,7 +91,7 @@ std::string CommandHandler::HandleGet(const Command& command){
     switch(command.type){
         case CommandType::CasualMatchOpponents:{
 
-            vector<CasualOpponent> casualOpponent = game_.CasualMatchOpponents();
+            vector<OpponentView> casualOpponent = game_.CasualMatchOpponents();
 
             if(command.arguments.find("sort_order") == command.arguments.end())
                 return OutputFormatter::CasualMatchOpponents(casualOpponent, SortOrder::DESC);
@@ -122,15 +122,31 @@ std::string CommandHandler::HandleGet(const Command& command){
         case CommandType::Reports:
             return OutputFormatter::Reports(game_.GetReports());
 
+        case CommandType::RankedMatchOpponents:{
+
+            vector<OpponentView> rankedOpponent = game_.RankedMatchOpponents();
+
+            if(command.arguments.find("sort_order") == command.arguments.end())
+                return OutputFormatter::RankedMatchOpponents(rankedOpponent, SortOrder::DESC);
+
+            if(command.arguments.at("sort_order") != "asc" &&
+            command.arguments.at("sort_order") != "desc")
+                throw BadRequest();
+            
+            
+            return OutputFormatter::RankedMatchOpponents
+            (rankedOpponent, getSortOrder.at(command.arguments.at("sort_order")));
+        }
+
         default:
             throw NotFound();
     }
 }
 
-std::string CommandHandler::HandlePut(const Command& command){
+std::string CommandHandler::HandlePut(const Command&){
     throw NotFound();
 }
-std::string CommandHandler::HandleDelete(const Command& command){
+std::string CommandHandler::HandleDelete(const Command&){
     throw NotFound();
 }
 

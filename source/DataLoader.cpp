@@ -17,13 +17,16 @@ std::map<std::string, Player> DataLoader::LoadPlayers(std::string playersFileNam
     string header, line;
     getline(file, header);
     while(getline(file, line)){
-        string username, password;
-        int xp; 
+        string username, password, xpStr, rpStr;
         stringstream ss(line);
         getline(ss, username, ',');
         getline(ss, password, ',');
-        ss >> xp;
-    players.emplace(username, Player(username, password, xp));   
+        getline(ss, xpStr, ',');
+        getline(ss, rpStr, ',');
+
+        int xp = stoi(xpStr);
+        int rp = stoi(rpStr);
+        players.emplace(username, Player(username, password, xp, rp));   
     }
     return players;
 

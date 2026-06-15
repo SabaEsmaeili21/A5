@@ -3,7 +3,7 @@
 #include <iostream>
 #include "Command.hpp"
 #include "GameSystem.hpp"
-#include "CasualOpponent.hpp"
+#include "OpponentView.hpp"
 
 class CommandHandler{
     public:
@@ -12,10 +12,10 @@ class CommandHandler{
     private:
     GameSystem& game_;
     std::string HandleCommand(const Command& command);
-    std::string HandlePut(const Command& command);
     std::string HandlePost(const Command& command);
     std::string HandleGet(const Command& command);
-    std::string HandleDelete(const Command& command);
+    std::string HandleDelete(const Command&);
+    std::string HandlePut(const Command&);
     std::string RequireArgument(const Command& command, std::string key);
 
 };

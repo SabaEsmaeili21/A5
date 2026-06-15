@@ -23,7 +23,7 @@ class GameSystem{
     void Login(std::string username, std::string password);
     void Logout();
     void CasualMatchReady(std::string status);
-    std::vector<CasualOpponent> CasualMatchOpponents() const;
+    std::vector<OpponentView> CasualMatchOpponents() const;
     void PostInvitation(std::string username, std::string matchType);
     void StartMatch(int id);
     void RejectInvitation(int id);
@@ -33,6 +33,7 @@ class GameSystem{
     ProfileView GetProfile(std::string username) const;
     std::map<int, ReceivedInvitationView> GetReceivedInvitations() const;
     std::map<int, ReportView> GetReports() const;
+    std::vector<OpponentView> RankedMatchOpponents() const;
 
     private:
     void StartMatchBetween(Player& sender, Player& receiver);

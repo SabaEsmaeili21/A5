@@ -11,12 +11,12 @@ string OutputFormatter::Ok(){
     return "OK\n";
 }
 
-string OutputFormatter::CasualMatchOpponents(vector<CasualOpponent> opponents,
+string OutputFormatter::CasualMatchOpponents(vector<OpponentView> opponents,
     SortOrder sortOrder){
         sort(opponents.begin(), opponents.end(),[sortOrder](const auto& a, const auto& b){
-            if (a.xp != b.xp)
-                return sortOrder == SortOrder::ASC ? a.xp < b.xp
-                    : a.xp > b.xp;
+            if (a.point != b.point)
+                return sortOrder == SortOrder::ASC ? a.point < b.point
+                    : a.point > b.point;
 
             return a.username < b.username;
         });
@@ -25,7 +25,7 @@ string OutputFormatter::CasualMatchOpponents(vector<CasualOpponent> opponents,
         for(const auto& opponant : opponents){
             i++;
             result += to_string(i) + ". " + opponant.username + " with "
-            + to_string(opponant.xp) + " XP\n";
+            + to_string(opponant.point) + " XP\n";
             
         }
         return result;
@@ -102,4 +102,22 @@ std::string OutputFormatter::Reports(std::map<int, ReportView> reports){
     return result;
 }
 
+string OutputFormatter::RankedMatchOpponents(vector<OpponentView> opponents,
+    SortOrder sortOrder){
+        sort(opponents.begin(), opponents.end(),[sortOrder](const auto& a, const auto& b){
+            if (a.point != b.point)
+                return sortOrder == SortOrder::ASC ? a.point < b.point
+                    : a.point > b.point;
 
+            return a.username < b.username;
+        });
+        string result;
+        int i = 0;
+        for(const auto& opponant : opponents){
+            i++;
+            result += to_string(i) + ". " + opponant.username + " with "
+            + to_string(opponant.point) + " RP\n";
+            
+        }
+        return result;
+    }

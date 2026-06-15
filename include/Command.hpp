@@ -23,7 +23,8 @@ enum class CommandType {
     Report,
     Profile,
     ReceivedInvitations,
-    Reports
+    Reports,
+    RankedMatchOpponents
 };
 
 inline const std::map<std::string, CommandType> postCommands {
@@ -43,7 +44,8 @@ inline const std::map<std::string, CommandType> getCommands {
     {"match_status", CommandType::MatchStatus},
     {"profile", CommandType::Profile},
     {"received_invitations", CommandType::ReceivedInvitations},
-    {"reports", CommandType::Reports}
+    {"reports", CommandType::Reports}, 
+    {"ranked_match_opponents", CommandType::RankedMatchOpponents},
 };
 
 inline const std::map<std::string, CommandType> putCommands {

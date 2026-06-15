@@ -42,7 +42,7 @@ void GameSystem::CasualMatchReady(std::string status){
         player.SetCasualMatchReady(false);
 }
 
-vector<CasualOpponent> GameSystem::CasualMatchOpponents() const{
+vector<OpponentView> GameSystem::CasualMatchOpponents() const{
     if (!login_.IsPlayerLoggedIn()) 
         throw PermissionDenied();
     
@@ -167,4 +167,11 @@ std::map<int, ReportView> GameSystem::GetReports() const{
     if(!login_.IsAdminLoggedIn())
         throw PermissionDenied();
     return reportsManager_.GetReports();
+}
+
+std::vector<OpponentView> GameSystem::RankedMatchOpponents() const{
+    if (!login_.IsPlayerLoggedIn()) 
+        throw PermissionDenied();
+    
+    return usersManager_.RankedMatchOpponents(login_.CurrentPlayer().Username(), login_.CurrentPlayer().GetRank());
 }
