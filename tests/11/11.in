@@ -1,0 +1,19 @@
+GET profile ?
+GET received_invitations ?
+GET match_status ?
+POST action ? action "defend"
+POST casual_match_ready ? status "true"
+GET reports ?
+POST login ? username "admin1" password "adminpass"
+GET profile ?
+GET profile ? username "ali"
+GET profile ? username "admin2"
+GET received_invitations ?
+GET casual_match_opponents ?
+POST invitation ? username "bob" match_type "casual"
+POST start_match ? invitation_id "1"
+POST reject_invitation ? invitation_id "1"
+POST action ? action "defend"
+GET match_status ?
+GET reports ?
+POST logout ?

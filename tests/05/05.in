@@ -1,0 +1,20 @@
+POST login ? username "ali" password "ali123"
+POST invitation ? username "bob" match_type "casual"
+POST invitation ? username "carol" match_type "casual"
+POST logout ?
+POST login ? username "dave" password "dave123"
+POST start_match ? invitation_id "1"
+POST reject_invitation ? invitation_id "1"
+POST logout ?
+POST login ? username "bob" password "bob123"
+GET received_invitations ?
+POST start_match ? invitation_id "abc"
+POST reject_invitation ? invitation_id "abc"
+POST start_match ? invitation_id "999"
+POST reject_invitation ? invitation_id "999"
+POST reject_invitation ? invitation_id "1"
+GET received_invitations ?
+POST reject_invitation ? invitation_id "1"
+POST logout ?
+POST login ? username "carol" password "carol123"
+GET received_invitations ?

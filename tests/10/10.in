@@ -1,0 +1,13 @@
+GET reports ?
+POST login ? username "ali" password "ali123"
+POST report ? username "ghost" reason "x"
+POST report ? username "bob" reason ""
+POST report ? username "bob" reason "Bad sportsmanship"
+POST report ? username "carol" reason "Uses unfair macros"
+GET reports ?
+POST logout ?
+POST login ? username "admin1" password "adminpass"
+GET reports ?
+POST logout ?
+POST login ? username "admin2" password "secret"
+GET reports ?

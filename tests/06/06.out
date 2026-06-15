@@ -1,0 +1,55 @@
+OK
+OK
+OK
+OK
+OK
+Not Found
+Empty
+Turn 1
+You: pending
+Your opponent: pending
+History:
+Opponent's moves:   Your moves:
+Your remaining bullets: 1
+OK
+Turn 1
+You: defend
+Your opponent: pending
+History:
+Opponent's moves:   Your moves:
+Your remaining bullets: 1
+OK
+OK
+Turn 1
+You: pending
+Your opponent: played
+History:
+Opponent's moves:   Your moves:
+Your remaining bullets: 1
+OK
+Turn 2
+You: pending
+Your opponent: pending
+History:
+Opponent's moves:   Your moves:
+defend              reload
+Your remaining bullets: 2
+OK
+OK
+OK
+Turn 2
+You: pending
+Your opponent: played
+History:
+Opponent's moves:   Your moves:
+reload              defend
+Your remaining bullets: 1
+OK
+Turn 3
+You: pending
+Your opponent: pending
+History:
+Opponent's moves:   Your moves:
+reload              defend
+shoot               defend
+Your remaining bullets: 1

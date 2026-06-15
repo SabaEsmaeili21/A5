@@ -1,0 +1,17 @@
+POST register ? username "pishi" password "meow"
+POST login ? username "pishi" password "meow"
+POST logout ?
+POST login ? username "pishi" password "meow"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "pishikoochool" password "meooow"
+GET casual_match_opponents ? sort_order "desc"
+POST invitation ? username "pishi" match_type "casual"
+POST logout ?
+POST login ? username "pishi" password "meow"
+POST start_match ? invitation_id "1"
+POST action ? action "shoot"
+POST action ? action "shoot"
+POST logout ?
+POST login ? username "pishikoochool" password "meooow"
+POST action ? action "reload"

@@ -1,0 +1,27 @@
+POST login ? username "ali" password "ali123"
+GET casual_match_opponents ?
+POST casual_match_ready ? status "maybe"
+POST casual_match_ready ? status "true"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "bob" password "bob123"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "carol" password "carol123"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "dave" password "dave123"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "frank" password "frank123"
+POST casual_match_ready ? status "true"
+POST logout ?
+POST login ? username "erin" password "erin123"
+GET casual_match_opponents ?
+GET casual_match_opponents ? sort_order "asc"
+GET casual_match_opponents ? sort_order "invalid"
+POST logout ?
+POST login ? username "ali" password "ali123"
+GET casual_match_opponents ?
+POST logout ?
+GET casual_match_opponents ?

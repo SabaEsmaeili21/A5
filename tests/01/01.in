@@ -1,0 +1,15 @@
+PATCH login ? username "ali" password "ali123"
+POST nonexistent ?
+POST login username "ali" password "ali123"
+POST login ? username "ghost" password "x"
+POST login ? username "ali" password "wrong"
+POST login ? username "ali" password "ali123"
+POST login ? username "bob" password "bob123"
+POST register ? username "newbie" password "pw"
+POST logout ?
+POST logout ?
+PUT unknown ?
+DELETE unknown ?
+GET unknown ?
+POST login ? username garbage "ali" password "ali123"
+POST login ? username "ali"password "ali123"

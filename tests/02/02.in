@@ -1,0 +1,10 @@
+POST register ? username "newbie" password "pw"
+GET profile ?
+POST logout ?
+POST register ? username "ali" password "new"
+POST register ? username "admin1" password "new"
+POST register ? password "pw2" username "newbie2" extra "ignored"
+GET profile ?
+GET profile ? username "ali"
+POST logout ?
+GET profile ? username "ali"

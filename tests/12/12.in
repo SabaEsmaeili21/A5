@@ -1,0 +1,5 @@
+POST     login     ?     password "ali123"     username "ali"     ignored "yes"
+GET profile ? extra "ignored"
+POST casual_match_ready ? ignored "x" status "true"
+GET casual_match_opponents ? ignored "x"
+POST logout ? extra "ignored"

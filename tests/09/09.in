@@ -1,0 +1,11 @@
+POST login ? username "carol" password "carol123"
+POST invitation ? username "dave" match_type "casual"
+POST invitation ? username "ali" match_type "casual"
+POST logout ?
+POST login ? username "ali" password "ali123"
+POST start_match ? invitation_id "2"
+POST logout ?
+POST login ? username "dave" password "dave123"
+GET received_invitations ?
+POST start_match ? invitation_id "1"
+GET received_invitations ?

@@ -1,0 +1,11 @@
+POST login ? username "erin" password "erin123"
+POST invitation ? username "dave" match_type "casual"
+POST logout ?
+POST login ? username "dave" password "dave123"
+POST start_match ? invitation_id "1"
+POST action ? action "reload"
+POST logout ?
+POST login ? username "erin" password "erin123"
+POST action ? action "shoot"
+GET profile ?
+GET profile ? username "dave"

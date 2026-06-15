@@ -1,0 +1,20 @@
+POST login ? username "ali" password "ali123"
+POST invitation ? username "bob" match_type "casual"
+POST logout ?
+POST login ? username "bob" password "bob123"
+POST start_match ? invitation_id "1"
+POST action ? action "shoot"
+POST logout ?
+POST login ? username "ali" password "ali123"
+POST action ? action "defend"
+POST logout ?
+POST login ? username "bob" password "bob123"
+POST action ? action "shoot"
+GET match_status ?
+POST logout ?
+POST login ? username "carol" password "carol123"
+POST invitation ? username "bob" match_type "casual"
+POST logout ?
+POST login ? username "bob" password "bob123"
+POST start_match ? invitation_id "2"
+GET received_invitations ?
