@@ -2,6 +2,7 @@
 #define __PLAYER_HPP__
 
 #include <iostream>
+#include <set>
 #include "OpponentView.hpp"
 #include "User.hpp"
 #include "ProfileView.hpp"
@@ -28,6 +29,9 @@ class Player : public User{
     void ApplyRankedWin(int deltaRp, int healthBonus);
     void ApplyRankedLoss(int deltaRp);
     int CalculateRpChange() const;
+    void Block(std::string username);
+    void Unblock(std::string username);
+    bool HasBlocked(std::string username) const;
 
     private:
     int winCount_ = 0;
@@ -39,6 +43,8 @@ class Player : public User{
     bool inGame_ = false;
 
     int currentMatchId_ = -1;
+
+    std::set<std::string> blockedUsernames_;
 };
 
 #endif

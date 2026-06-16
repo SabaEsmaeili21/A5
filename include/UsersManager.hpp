@@ -18,6 +18,9 @@ class UsersManager{
     std::vector<OpponentView> CasualMatchOpponents(std::string requesterUsername) const;
     bool UsernameExists(std::string username) const;
     std::vector<OpponentView> RankedMatchOpponents(std::string requesterUsername, Rank rank) const;
+    bool PlayerExists(std::string username) const;
+    bool AdminExists(std::string username) const;
+
     private:
     std::map<std::string, std::unique_ptr<Player>> players_;
     std::map<std::string, std::unique_ptr<Admin>> admins_;

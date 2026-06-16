@@ -79,6 +79,18 @@ bool UsersManager::UsernameExists(std::string username) const{
         return true;
 }
 
+
+bool UsersManager::PlayerExists(std::string username) const{
+    auto playerIt = players_.find(username);
+    return !(playerIt == players_.end());
+}
+
+
+bool UsersManager::AdminExists(std::string username) const{
+    auto adminIt = admins_.find(username);
+    return !(adminIt == admins_.end());
+}
+
 std::vector<OpponentView> UsersManager::RankedMatchOpponents(std::string requesterUsername, Rank rank) const{
     vector<OpponentView> rankedOpponent;
 

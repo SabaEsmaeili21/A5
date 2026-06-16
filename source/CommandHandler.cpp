@@ -80,6 +80,10 @@ string CommandHandler::HandlePost(const Command& command) {
         case CommandType::Report:
             game_.Report(RequireArgument(command, "username"), RequireArgument(command, "reason"));
             return OutputFormatter::Ok();
+        
+        case CommandType::Block:
+            game_.Block(RequireArgument(command, "username"), RequireArgument(command, "status"));
+            return OutputFormatter::Ok();
 
         default:
             throw NotFound();

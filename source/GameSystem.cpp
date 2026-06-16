@@ -45,13 +45,22 @@ vector<OpponentView> GameSystem::CasualMatchOpponents() const{
 
 void GameSystem::PostInvitation(std::string username, std::string matchTypeStr){
     EnsurePlayerLoggedIn();
-    Player* player = dynamic_cast<Player*>(usersManager_.FindUser(username));
-    if(!player)
+
+    if(usersManager_.AdminExists(username))
         throw PermissionDenied();
+
+    /*if(!usersManager_.PlayerExists(username))
+        throw NotFound();*/
+
     if(matchTypeStr != "casual" && matchTypeStr != "ranked")
         throw BadRequest();
     
-    invitationsManager_.AddInvitation(login_.CurrentPlayer().Username(), username, GetMatchType.at(matchTypeStr));
+    Player& sender = login_.CurrentPlayer();
+    Player& receiver = usersManager_.FindPlayer(username);
+    if(receiver.HasBlocked(sender.Username()))
+        return;
+
+    invitationsManager_.AddInvitation(sender.Username(), username, GetMatchType.at(matchTypeStr));
 }
 
 void GameSystem::StartMatch(int invitationId){
@@ -168,11 +177,13 @@ ProfileView GameSystem::GetProfile(std::string username) const{
         throw PermissionDenied();
     if(login_.IsPlayerLoggedIn() && username == "")
         return login_.CurrentPlayer().GetProfile();
-    Player* player = dynamic_cast<Player*>(usersManager_.FindUser(username));
-    if(!player)
+        
+    if(usersManager_.AdminExists(username))
         throw PermissionDenied();
 
-    return player->GetProfile();
+    Player& player = usersManager_.FindPlayer(username);
+
+    return player.GetProfile();
 }
 
 std::map<int, ReceivedInvitationView> GameSystem::GetReceivedInvitations() const{
@@ -191,9 +202,29 @@ std::vector<OpponentView> GameSystem::RankedMatchOpponents() const{
     return usersManager_.RankedMatchOpponents(login_.CurrentPlayer().Username(), login_.CurrentPlayer().GetRank());
 }
 
+void GameSystem::Block(std::string username, std::string status){
+    EnsurePlayerLoggedIn();
+
+    if(usersManager_.AdminExists(username))
+        throw BadRequest();
+
+    Player& player = usersManager_.FindPlayer(username);
+
+    if(status == "blocked")
+        player.Block(username);
+    
+    else if(status == "unblocked")
+        player.Unblock(username);
+
+    else
+        throw BadRequest();
+
+}
+
 void GameSystem::EnsurePlayerLoggedIn() const {
     if(!login_.IsPlayerLoggedIn())
         throw PermissionDenied();
+    
 }
 
 void GameSystem::EnsureLoggedIn() const {

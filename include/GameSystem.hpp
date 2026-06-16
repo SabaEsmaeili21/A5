@@ -34,6 +34,7 @@ class GameSystem{
     std::map<int, ReceivedInvitationView> GetReceivedInvitations() const;
     std::map<int, ReportView> GetReports() const;
     std::vector<OpponentView> RankedMatchOpponents() const;
+    void Block(std::string username, std::string status);
 
     private:
     int CreateMatch(const Player& sender, const Player& receiver, MatchType matchType);

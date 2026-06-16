@@ -80,3 +80,14 @@ int Player::CalculateRpChange() const{
             return 150;
     }
 }
+
+void Player::Block(std::string username){
+    blockedUsernames_.insert(username);
+}
+void Player::Unblock(std::string username){
+    blockedUsernames_.erase(username);
+}
+
+bool Player::HasBlocked(std::string username) const{
+    return blockedUsernames_.count(username);
+}
