@@ -29,15 +29,17 @@ class GameSystem{
     void RejectInvitation(int id);
     void ProcessMove(std::string actionStr);
     MatchStatusView MatchStatus();
-    void Report(std::string username, std::string reason);
+    void AddReport(std::string username, std::string reason);
     ProfileView GetProfile(std::string username) const;
     std::map<int, ReceivedInvitationView> GetReceivedInvitations() const;
     std::map<int, ReportView> GetReports() const;
     std::vector<OpponentView> RankedMatchOpponents() const;
     void Block(std::string username, std::string status);
+    void ApplyPenalty(int reportId, std::string type, int amount, int numOfMatches);
 
     private:
-    int CreateMatch(const Player& sender, const Player& receiver, MatchType matchType);
+
+    int CreateMatch(Player& sender, Player& receiver, MatchType matchType);
     void MarkPlayersInMatch(Player& sender, Player& receiver, int matchId);
     void FinishMatch(const Match& match);
     int CalculateXpChange(int xp1, int xp2);

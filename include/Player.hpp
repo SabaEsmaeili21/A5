@@ -7,6 +7,8 @@
 #include "User.hpp"
 #include "ProfileView.hpp"
 #include "Rank.hpp"
+#include "Penalty.hpp"
+#include "PlayerMatchStartState.hpp"
 
 class Player : public User{
     public:
@@ -32,7 +34,11 @@ class Player : public User{
     void Block(std::string username);
     void Unblock(std::string username);
     bool HasBlocked(std::string username) const;
-
+    void ApplyHealthPenalty(int amount, int numOfMatches);
+    void ApplyBulletPenalty(int amount, int numOfMatches);
+    PlayerMatchStartState GetRankedMatchStartState() const;
+    void ConsumeRankedMatchPenalties();
+    
     private:
     int winCount_ = 0;
     int lossCount_ = 0;
@@ -45,6 +51,9 @@ class Player : public User{
     int currentMatchId_ = -1;
 
     std::set<std::string> blockedUsernames_;
+
+    Penalty healthPenalty_;
+    Penalty bulletPenalty_;
 };
 
 #endif

@@ -4,7 +4,7 @@
 #include "User.hpp"
 #include "GameSystem.hpp"
 #include "Exception.hpp"
-
+#include "Penalty.hpp"
 using namespace std;
 
 void GameSystem::Register(string username, string password){
@@ -88,12 +88,26 @@ MatchType matchType, int invitationId){
     }
 }
 
-int GameSystem::CreateMatch(const Player& sender, const Player& receiver, MatchType matchType){
+int GameSystem::CreateMatch(Player& sender, Player& receiver, MatchType matchType){
     switch(matchType){
         case(MatchType::CASUAL):
             return matchesManager_.AddCasualMatch(sender.Username(), receiver.Username());
-        case(MatchType::RANKED):
-            return matchesManager_.AddRankedMatch(sender.Username(), receiver.Username());
+        case(MatchType::RANKED):{
+
+            const PlayerMatchStartState senderState =
+                sender.GetRankedMatchStartState();
+
+            const PlayerMatchStartState receiverState =
+                receiver.GetRankedMatchStartState();
+
+            int matchId = matchesManager_.AddRankedMatch(sender.Username(), receiver.Username(),
+            senderState, receiverState);
+
+            sender.ConsumeRankedMatchPenalties();
+            receiver.ConsumeRankedMatchPenalties();
+
+            return matchId;
+        }
     }
     throw BadRequest();
 }
@@ -163,7 +177,7 @@ MatchStatusView GameSystem::MatchStatus(){
     return match.MatchStatus(player.Username());
 }
 
-void GameSystem::Report(std::string username, std::string reason){
+void GameSystem::AddReport(std::string username, std::string reason){
     EnsurePlayerLoggedIn();
     if(reason.empty())
         throw BadRequest();
@@ -216,6 +230,25 @@ void GameSystem::Block(std::string username, std::string status){
     else if(status == "unblocked")
         player.Unblock(username);
 
+    else
+        throw BadRequest();
+
+}
+
+void GameSystem::ApplyPenalty(int reportId, std::string type, int amount, int numOfMatches){
+    EnsureAdminLoggedIn();
+    
+    const Report& report = reportsManager_.FindReport(reportId);
+    Player& reportedPlayer = usersManager_.FindPlayer(report.ReportedUsername());
+
+    if(type == "health_penalty")
+    {
+        reportedPlayer.ApplyHealthPenalty(amount, numOfMatches);
+    }
+    else if(type == "bullet_penalty")
+    {
+        reportedPlayer.ApplyBulletPenalty(amount, numOfMatches);
+    }
     else
         throw BadRequest();
 

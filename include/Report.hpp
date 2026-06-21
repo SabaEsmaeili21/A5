@@ -9,6 +9,9 @@ class Report{
     Report(std::string senderUsername, std::string reportedUsername, std::string reason)
     : senderUsername_(senderUsername), reportedUsername_(reportedUsername), reason_(reason){}
     ReportView ToReportView() const;
+
+    std::string ReportedUsername() const;
+    
     private:
     std::string senderUsername_;
     std::string reportedUsername_;

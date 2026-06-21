@@ -19,3 +19,9 @@ std::map<int, ReportView> ReportsManager::GetReports() const{
         throw Empty();
     return reports;
 }
+
+const Report& ReportsManager::FindReport(int id) const{
+    if(reports_.find(id) == reports_.end())
+        throw NotFound();
+    return reports_.at(id);
+}

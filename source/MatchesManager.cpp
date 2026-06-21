@@ -12,9 +12,12 @@ int MatchesManager::AddCasualMatch(string player1Username, string player2Usernam
     return id;
 }
 
-int MatchesManager::AddRankedMatch(string player1Username, string player2Username){
+int MatchesManager::AddRankedMatch(string player1Username, string player2Username,
+    PlayerMatchStartState player1State, PlayerMatchStartState player2State){
+
     int id = IdGenerator::GenerateMatchId();
-    matches_.emplace(id, make_unique<RankedMatch>(player1Username, player2Username));
+    matches_.emplace(id,make_unique<RankedMatch>(player1Username, player2Username,
+        player1State, player2State));
     return id;
 }
 

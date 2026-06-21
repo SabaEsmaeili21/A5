@@ -1,7 +1,16 @@
 #include <iostream>
 #include "Player.hpp"
 #include "OpponentView.hpp"
+#include "Exception.hpp"
+
 using namespace std;
+
+const int MIN_PENALTY_AMOUNT = 1;
+const int MAX_HEALTH_PENALTY_AMOUNT = 2;
+const int MAX_BULLET_PENALTY_AMOUNT = 3;
+const int MIN_PENALTY_MATCHES = 1;
+const int DEFAULT_RANKED_BULLETS = 3;
+const int DEFAULT_RANKED_HEALTH = 3;
 
 void Player::SetCasualMatchReady(bool status){
     readyForCasualMatch_ = status;
@@ -90,4 +99,61 @@ void Player::Unblock(std::string username){
 
 bool Player::HasBlocked(std::string username) const{
     return blockedUsernames_.count(username);
+}
+
+void Player::ApplyHealthPenalty(int amount, int numberOfMatches){
+
+     if (amount < MIN_PENALTY_AMOUNT || amount > MAX_HEALTH_PENALTY_AMOUNT)
+        throw BadRequest();
+
+    if (numberOfMatches < MIN_PENALTY_MATCHES)
+        throw BadRequest();
+
+    healthPenalty_ = Penalty{amount, numberOfMatches};
+}
+void Player::ApplyBulletPenalty(int amount, int numberOfMatches){
+
+    if (amount < MIN_PENALTY_AMOUNT || amount > MAX_BULLET_PENALTY_AMOUNT)
+        throw BadRequest();
+
+    if (numberOfMatches < MIN_PENALTY_MATCHES)
+        throw BadRequest();
+
+    bulletPenalty_ = Penalty{amount, numberOfMatches};
+}
+
+PlayerMatchStartState Player::GetRankedMatchStartState() const
+{
+    int startingBullets = DEFAULT_RANKED_BULLETS;
+    int startingHealth = DEFAULT_RANKED_HEALTH;
+
+    if (bulletPenalty_.remainingMatches > 0) {
+        startingBullets -= bulletPenalty_.amount;
+    }
+
+    if (healthPenalty_.remainingMatches > 0) {
+        startingHealth -= healthPenalty_.amount;
+    }
+
+    return PlayerMatchStartState{
+        .bullets = startingBullets,
+        .health = startingHealth
+    };
+}
+
+void Player::ConsumeRankedMatchPenalties()
+{
+    if (bulletPenalty_.remainingMatches > 0) {
+        bulletPenalty_.remainingMatches--;
+
+        if (bulletPenalty_.remainingMatches == 0)
+            bulletPenalty_.amount = 0;
+    }
+
+    if (healthPenalty_.remainingMatches > 0) {
+        healthPenalty_.remainingMatches--;
+
+        if (healthPenalty_.remainingMatches == 0)
+            healthPenalty_.amount = 0;
+    }
 }

@@ -4,12 +4,14 @@
 #include <map>
 #include <memory>
 #include "Match.hpp"
+#include "PlayerMatchStartState.hpp"
 
 class MatchesManager{
     public:
     MatchesManager() = default;
     int AddCasualMatch(std::string player1Username, std::string player2Username);
-    int AddRankedMatch(std::string player1Username, std::string player2Username);
+    int AddRankedMatch(std::string player1Username, std::string player2Username,
+        PlayerMatchStartState player1State, PlayerMatchStartState player2State);
 
     Match& Find(int id);
     private:

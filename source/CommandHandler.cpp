@@ -78,11 +78,19 @@ string CommandHandler::HandlePost(const Command& command) {
             return OutputFormatter::Ok();
 
         case CommandType::Report:
-            game_.Report(RequireArgument(command, "username"), RequireArgument(command, "reason"));
+            game_.AddReport(RequireArgument(command, "username"), RequireArgument(command, "reason"));
             return OutputFormatter::Ok();
         
         case CommandType::Block:
             game_.Block(RequireArgument(command, "username"), RequireArgument(command, "status"));
+            return OutputFormatter::Ok();
+
+        case CommandType::Penalty:
+
+            game_.ApplyPenalty(stoi(RequireArgument(command, "report_id")), 
+            RequireArgument(command, "type"), stoi(RequireArgument(command, "amount")),
+            stoi(RequireArgument(command, "number_of_matches")));
+
             return OutputFormatter::Ok();
 
         default:
