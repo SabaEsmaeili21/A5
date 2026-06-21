@@ -56,7 +56,7 @@ int Player::Xp() const{
 }
 
 ProfileView Player::GetProfile() const{
-    return ProfileView {username_, xp_, winCount_, lossCount_};
+    return ProfileView {username_, rp_, xp_, winCount_, lossCount_};
 }
 
 Rank Player::GetRank() const{

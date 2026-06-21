@@ -68,6 +68,7 @@ std::string OutputFormatter::MoveToString(Move move){
 
 std::string OutputFormatter::Profile(ProfileView profile){
     return "username: \"" + profile.username + "\"\n"
+    + "RP: " + to_string(profile.rp) + "\n"
     + "XP: " + to_string(profile.xp) + "\n"
     + "Total wins: " + to_string(profile.totalWins) + "\n"
     + "Total losses: " + to_string(profile.totallosses) + "\n";
