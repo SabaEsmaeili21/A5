@@ -25,3 +25,9 @@ const Report& ReportsManager::FindReport(int id) const{
         throw NotFound();
     return reports_.at(id);
 }
+
+void ReportsManager::Delete(int id){
+    if(reports_.find(id) == reports_.end())
+        throw NotFound();
+    reports_.erase(id); 
+}

@@ -12,6 +12,8 @@ class ReportsManager{
     void AddReport(std::string senderUsername, std::string reportedUsername, std::string reason);
     std::map<int, ReportView> GetReports() const;
     const Report& FindReport(int id) const;
+    void Delete(int id);
+    
     private:
     std::map<int, Report> reports_;
 };

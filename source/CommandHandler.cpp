@@ -92,6 +92,11 @@ string CommandHandler::HandlePost(const Command& command) {
             stoi(RequireArgument(command, "number_of_matches")));
 
             return OutputFormatter::Ok();
+        
+        case CommandType::DismissReport:
+
+            game_.DismissReport(stoi(RequireArgument(command, "report_id")));
+            return OutputFormatter::Ok();
 
         default:
             throw NotFound();

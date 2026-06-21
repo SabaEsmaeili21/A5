@@ -7,6 +7,22 @@
 #include "Penalty.hpp"
 using namespace std;
 
+void GameSystem::EnsurePlayerLoggedIn() const {
+    if(!login_.IsPlayerLoggedIn())
+        throw PermissionDenied();
+    
+}
+
+void GameSystem::EnsureLoggedIn() const {
+    if(!login_.IsLoggedIn())
+        throw PermissionDenied();
+}
+
+void GameSystem::EnsureAdminLoggedIn() const {
+    if(!login_.IsAdminLoggedIn())
+        throw PermissionDenied();
+}
+
 void GameSystem::Register(string username, string password){
     if(login_.IsLoggedIn())
         throw PermissionDenied();
@@ -251,21 +267,10 @@ void GameSystem::ApplyPenalty(int reportId, std::string type, int amount, int nu
     }
     else
         throw BadRequest();
-
 }
 
-void GameSystem::EnsurePlayerLoggedIn() const {
-    if(!login_.IsPlayerLoggedIn())
-        throw PermissionDenied();
-    
+void GameSystem::DismissReport(int reportId){
+    EnsureAdminLoggedIn();
+    reportsManager_.Delete(reportId);
 }
 
-void GameSystem::EnsureLoggedIn() const {
-    if(!login_.IsLoggedIn())
-        throw PermissionDenied();
-}
-
-void GameSystem::EnsureAdminLoggedIn() const {
-    if(!login_.IsAdminLoggedIn())
-        throw PermissionDenied();
-}

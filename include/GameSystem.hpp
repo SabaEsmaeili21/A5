@@ -36,6 +36,7 @@ class GameSystem{
     std::vector<OpponentView> RankedMatchOpponents() const;
     void Block(std::string username, std::string status);
     void ApplyPenalty(int reportId, std::string type, int amount, int numOfMatches);
+    void DismissReport(int reportId);
 
     private:
 
