@@ -88,6 +88,7 @@ int Player::CalculateRpChange() const{
         case(Rank::Platinum):
             return 150;
     }
+    throw BadRequest();
 }
 
 void Player::Block(std::string username){

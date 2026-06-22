@@ -17,8 +17,10 @@ class RankedMatch : public Match{
 
     MatchType Type() const override;
     int GetHealthBonus() const override;
+    MatchStatusView MatchStatus(std::string username) const override;
 
     private:
+
     RoundOutcome ResolveOutcome(const Round& round) override;
 
     int player1Health_ = 3;

@@ -28,3 +28,9 @@ int RankedMatch::GetHealthBonus() const{
         return player2Health_ * 25;
     return 0;
 }
+
+MatchStatusView RankedMatch::MatchStatus(std::string username)const{
+    MatchStatusView status = Match::MatchStatus(username);
+    status.yourRemainingHealth = IsPlayer1(username) ? player1Health_ : player2Health_;
+    return status;
+}

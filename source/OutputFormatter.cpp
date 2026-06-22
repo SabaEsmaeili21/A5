@@ -39,10 +39,18 @@ std::string OutputFormatter::MatchStatus(MatchStatusView matchStatus){
     out << "Your opponent: " << (matchStatus.opponentHasPlayed ? "played" : "pending") << '\n';
     out << "History:\n";
     out << left << setw(20) << "Opponent's moves:" << "Your moves:\n";
+
     /*setw means The next thing printed should occupy at least 20 characters.*/
     for(const auto& [opponentMove, yourMove] : matchStatus.history)
         out << left << setw(20) << MoveToString(opponentMove) << MoveToString(yourMove) << '\n';
+
     out << "Your remaining bullets: " << matchStatus.yourRemainingBullets << '\n';
+
+    if (matchStatus.yourRemainingHealth.has_value()) {
+        out << "Your remaining health: "
+            << matchStatus.yourRemainingHealth.value()
+            << '\n';
+    }
 
     return out.str();
 }

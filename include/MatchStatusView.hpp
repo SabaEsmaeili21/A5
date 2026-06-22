@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <optional>
 #include "Move.hpp"
 
 struct MatchStatusView{
@@ -11,5 +12,6 @@ struct MatchStatusView{
     bool opponentHasPlayed;
     std::vector<std::pair<Move, Move>> history;
     int yourRemainingBullets;
+    std::optional<int> yourRemainingHealth;
 };
 #endif

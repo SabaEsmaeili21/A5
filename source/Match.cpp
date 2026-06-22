@@ -88,7 +88,7 @@ MatchStatusView Match::MatchStatus(std::string username)const{
     Move player1Move = round.Player1Move();
     Move player2Move = round.Player2Move(); 
 
-    bool isPlayer1 = username == player1Username_;
+    bool isPlayer1 = IsPlayer1(username);
     Move yourMove = isPlayer1 ? player1Move : player2Move;
     Move opponentMove = isPlayer1 ? player2Move : player1Move;
     int yourBullets = isPlayer1 ? player1Bullets_ : player2Bullets_;
@@ -120,4 +120,9 @@ std::vector<std::pair<Move, Move>> Match::RoundHistory(std::string username) con
 
 int Match::GetHealthBonus() const {
         return 0;
+}
+
+bool Match::IsPlayer1(std::string username) const
+{
+    return username == player1Username_;
 }

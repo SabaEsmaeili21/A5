@@ -14,7 +14,7 @@ class Match{
     bool IsFinished() const;
     std::string WinnerUsername() const;
     std::string LoserUsername() const;
-    MatchStatusView MatchStatus(std::string username) const;
+    virtual MatchStatusView MatchStatus(std::string username) const;
     virtual MatchType Type() const = 0;
     virtual int GetHealthBonus() const;
 
@@ -27,6 +27,8 @@ class Match{
     }
 
     virtual RoundOutcome ResolveOutcome(const Round& round) = 0;
+
+    bool IsPlayer1(std::string username) const;
 
     private:
     void ResolveRound();
