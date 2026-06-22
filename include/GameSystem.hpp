@@ -28,7 +28,7 @@ class GameSystem{
     void StartMatch(int id);
     void RejectInvitation(int id);
     void ProcessMove(std::string actionStr);
-    MatchStatusView MatchStatus();
+    MatchStatusView MatchStatus() const;
     void AddReport(std::string username, std::string reason);
     ProfileView GetProfile(std::string username) const;
     std::map<int, ReceivedInvitationView> GetReceivedInvitations() const;

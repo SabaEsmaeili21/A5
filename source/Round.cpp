@@ -3,20 +3,14 @@
 #include "Exception.hpp"
 using namespace std;
 
-void Round::RegisterMove(Move move, PlayerSide player){
-    if(player == PlayerSide::Player1){
-        if(player1Move_ == Move::PENDING)
-            player1Move_ = move;
-        else    
-            throw PermissionDenied();
-    }
+void Round::RegisterMove(Move move, PlayerSide playerSide){
+    Move& registeredMove = playerSide == PlayerSide::Player1 ? player1Move_
+            : player2Move_;
 
-    else if(player == PlayerSide::Player2){
-        if(player2Move_ == Move::PENDING)
-            player2Move_ = move;
-        else    
-            throw PermissionDenied();
-    }
+    if (registeredMove != Move::PENDING)
+        throw PermissionDenied();
+
+    registeredMove = move;
 }
 
 bool Round::IsComplete() const{

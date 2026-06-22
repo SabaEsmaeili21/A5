@@ -21,13 +21,15 @@ std::map<int, ReportView> ReportsManager::GetReports() const{
 }
 
 const Report& ReportsManager::FindReport(int id) const{
-    if(reports_.find(id) == reports_.end())
+    const auto it = reports_.find(id);
+
+    if (it == reports_.end())
         throw NotFound();
-    return reports_.at(id);
+
+    return it->second;
 }
 
 void ReportsManager::Delete(int id){
-    if(reports_.find(id) == reports_.end())
+    if (reports_.erase(id) == 0)
         throw NotFound();
-    reports_.erase(id); 
 }

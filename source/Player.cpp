@@ -24,6 +24,10 @@ OpponentView Player::GetCasualOpponentInfo()const{
     return {username_, xp_};
 }
 
+OpponentView Player::GetRankedOpponentInfo()const{
+    return {username_, rp_};
+}
+
 bool Player::IsInGame() const{
     return inGame_;
 }
@@ -56,7 +60,7 @@ int Player::Xp() const{
 }
 
 ProfileView Player::GetProfile() const{
-    return ProfileView {username_, rp_, xp_, winCount_, lossCount_};
+    return ProfileView {username_, GetRank(), rp_, xp_, winCount_, lossCount_};
 }
 
 Rank Player::GetRank() const{
@@ -103,24 +107,20 @@ bool Player::HasBlocked(std::string username) const{
 }
 
 void Player::ApplyHealthPenalty(int amount, int numberOfMatches){
-
-     if (amount < MIN_PENALTY_AMOUNT || amount > MAX_HEALTH_PENALTY_AMOUNT)
-        throw BadRequest();
-
-    if (numberOfMatches < MIN_PENALTY_MATCHES)
-        throw BadRequest();
-
-    healthPenalty_ = Penalty{amount, numberOfMatches};
+    ApplyPenalty(healthPenalty_, amount, numberOfMatches, MAX_HEALTH_PENALTY_AMOUNT);
 }
 void Player::ApplyBulletPenalty(int amount, int numberOfMatches){
+    ApplyPenalty(bulletPenalty_, amount, numberOfMatches, MAX_BULLET_PENALTY_AMOUNT);
+}
 
-    if (amount < MIN_PENALTY_AMOUNT || amount > MAX_BULLET_PENALTY_AMOUNT)
+void Player::ApplyPenalty(Penalty& penalty, int amount, int numberOfMatches, int maximumAmount){
+    if (amount < MIN_PENALTY_AMOUNT ||
+        amount > maximumAmount ||
+        numberOfMatches < MIN_PENALTY_MATCHES){
         throw BadRequest();
+    }
 
-    if (numberOfMatches < MIN_PENALTY_MATCHES)
-        throw BadRequest();
-
-    bulletPenalty_ = Penalty{amount, numberOfMatches};
+    penalty = {.amount = amount, .remainingMatches = numberOfMatches};
 }
 
 PlayerMatchStartState Player::GetRankedMatchStartState() const

@@ -12,9 +12,10 @@ class UsersManager{
     public:
     UsersManager(std::map<std::string, Player> players, std::map<std::string, Admin> admins);
     Player& RegisterPlayer(std::string username, std::string password);
-    User* FindUser(std::string username) const;
-    Player& FindPlayer(std::string username) const;
-    Admin& FindAdmin(std::string username) const;
+    const Player& FindPlayer(std::string username) const;
+    const Admin& FindAdmin(std::string username) const;
+    Player& FindPlayer(std::string username);
+    Admin& FindAdmin(std::string username);
     std::vector<OpponentView> CasualMatchOpponents(std::string requesterUsername) const;
     bool UsernameExists(std::string username) const;
     std::vector<OpponentView> RankedMatchOpponents(std::string requesterUsername, Rank rank) const;

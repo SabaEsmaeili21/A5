@@ -9,7 +9,7 @@
 class Round{
     public:
     Round() = default;
-    void RegisterMove(Move move, PlayerSide player);
+    void RegisterMove(Move move, PlayerSide playerSide);
     bool IsComplete() const;
     RoundOutcome Outcome() const;
     Move Player1Move() const;

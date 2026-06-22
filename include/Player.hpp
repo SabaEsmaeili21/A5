@@ -18,6 +18,7 @@ class Player : public User{
     void SetCasualMatchReady(bool status);
     bool IsReadyForCasualMatch()const;
     OpponentView GetCasualOpponentInfo()const;
+    OpponentView GetRankedOpponentInfo()const;
     bool IsInGame() const;
     void StartMatch(int matchId);
     int CurrentMatchId()const;
@@ -40,6 +41,9 @@ class Player : public User{
     void ConsumeRankedMatchPenalties();
     
     private:
+
+    void ApplyPenalty(Penalty& penalty, int amount, int numberOfMatches, int maximumAmount);
+
     int winCount_ = 0;
     int lossCount_ = 0;
     int xp_;

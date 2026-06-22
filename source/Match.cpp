@@ -5,10 +5,8 @@
 using namespace std;
 
 void Match::ProcessMove(Move move, string username){
-    Round& round = rounds_.at(currentRound_); //without the & only the copy is modified 
-    /*You're saying: "Give me an alias to the Round inside the map."
-    Not: "Create a new Round object and copy the contents."*/
-
+    Round& round = rounds_.at(currentRound_); 
+    
     if(username == player1Username_){
         if(!CanShoot(move, player1Bullets_))
             throw BadRequest();

@@ -14,6 +14,7 @@ class MatchesManager{
         PlayerMatchStartState player1State, PlayerMatchStartState player2State);
 
     Match& Find(int id);
+    const Match& Find(int id) const;
     private:
     std::map<int, std::unique_ptr<Match>> matches_;
 };

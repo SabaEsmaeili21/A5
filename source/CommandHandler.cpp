@@ -106,19 +106,9 @@ string CommandHandler::HandlePost(const Command& command) {
 std::string CommandHandler::HandleGet(const Command& command){
     switch(command.type){
         case CommandType::CasualMatchOpponents:{
-
-            vector<OpponentView> casualOpponent = game_.CasualMatchOpponents();
-
-            if(command.arguments.find("sort_order") == command.arguments.end())
-                return OutputFormatter::CasualMatchOpponents(casualOpponent, SortOrder::DESC);
-
-            if(command.arguments.at("sort_order") != "asc" &&
-            command.arguments.at("sort_order") != "desc")
-                throw BadRequest();
-            
             
             return OutputFormatter::CasualMatchOpponents
-            (casualOpponent, getSortOrder.at(command.arguments.at("sort_order")));
+            (game_.CasualMatchOpponents(), GetSortOrder(command));
         }
 
         case CommandType::MatchStatus:{
@@ -139,19 +129,9 @@ std::string CommandHandler::HandleGet(const Command& command){
             return OutputFormatter::Reports(game_.GetReports());
 
         case CommandType::RankedMatchOpponents:{
-
-            vector<OpponentView> rankedOpponent = game_.RankedMatchOpponents();
-
-            if(command.arguments.find("sort_order") == command.arguments.end())
-                return OutputFormatter::RankedMatchOpponents(rankedOpponent, SortOrder::DESC);
-
-            if(command.arguments.at("sort_order") != "asc" &&
-            command.arguments.at("sort_order") != "desc")
-                throw BadRequest();
-            
             
             return OutputFormatter::RankedMatchOpponents
-            (rankedOpponent, getSortOrder.at(command.arguments.at("sort_order")));
+            (game_.RankedMatchOpponents(), GetSortOrder(command));
         }
 
         default:
@@ -173,4 +153,20 @@ std::string CommandHandler::RequireArgument(const Command& command, std::string 
         throw BadRequest();
 
     return it->second;
+}
+
+SortOrder CommandHandler::GetSortOrder(const Command& command) const
+{
+    if (command.arguments.find("sort_order") == command.arguments.end())
+        return SortOrder::DESC;
+
+    const std::string& sortOrder = command.arguments.at("sort_order");
+
+    if (sortOrder == "asc")
+        return SortOrder::ASC;
+
+    if (sortOrder == "desc")
+        return SortOrder::DESC;
+
+    throw BadRequest();
 }

@@ -5,7 +5,7 @@
 
 class User{
     public:
-    User(std::string username, std::string password_): username_(username), password_(password_){}
+    User(std::string username, std::string password): username_(username), password_(password){}
     bool CheckPassword(std::string password) const;
     std::string Username() const;
     virtual ~User() = default;

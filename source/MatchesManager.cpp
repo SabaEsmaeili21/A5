@@ -28,3 +28,10 @@ Match& MatchesManager::Find(int id){
     return *(it->second);
 }
 
+const Match& MatchesManager::Find(int id)const{
+    auto it = matches_.find(id);
+    if(it == matches_.end())
+        throw NotFound();
+    return *(it->second);
+}
+

@@ -11,11 +11,10 @@
 
 class InvitationsManager{
     public:
-    InvitationsManager() = default; //Generate the normal default constructor.
-    // vector constructor already ran before this 
+    InvitationsManager() = default;
     void AddInvitation(std::string senderUsername, std::string receiverUsername, MatchType type);
     void Delete(int id);
-    Invitation& Find(int id);
+    const Invitation& Find(int id) const;
     std::map<int, ReceivedInvitationView> GetReceivedInvitations(std::string username) const;
 
     private:

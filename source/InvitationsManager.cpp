@@ -12,12 +12,11 @@ void InvitationsManager::AddInvitation(std::string senderUsername,
 }
 
 void InvitationsManager::Delete(int id){
-    if(invitations_.find(id) == invitations_.end())
+    if (invitations_.erase(id) == 0)
         throw NotFound();
-    invitations_.erase(id);
 }
 
-Invitation& InvitationsManager::Find(int id){
+const Invitation& InvitationsManager::Find(int id) const{
     auto it = invitations_.find(id);
     if (it == invitations_.end())
         throw NotFound();

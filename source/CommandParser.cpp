@@ -47,9 +47,7 @@ CommandMethod CommandParser::parseMethod(const std::string& word){
 
 CommandType CommandParser::parseType(const std::string& word, CommandMethod method){
     const map<string, CommandType>* commands = nullptr;
-    /*commands is a pointer to a const map."
-    You can change where the pointer points:
-    but you cannot modify the map through that pointer:*/
+
     switch (method)
     {
     case CommandMethod::POST:

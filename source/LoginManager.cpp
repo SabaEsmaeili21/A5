@@ -1,54 +1,86 @@
-#include <iostream>
 #include "LoginManager.hpp"
 #include "Exception.hpp"
 
-using namespace std;
-
-void LoginManager::Login(User& User){
-    if(currentUser_ != nullptr)
-        throw PermissionDenied();
-    currentUser_ = &User;
-}
-
-bool LoginManager::IsLoggedIn() const{
-    return currentUser_ != nullptr;
-}
-
-void LoginManager::Logout(){
-    if(currentUser_ == nullptr)
-        throw PermissionDenied();
-    currentUser_ = nullptr;
-}
-
-User* LoginManager::CurrentUser() const{
-    if(currentUser_ == nullptr)
-        throw PermissionDenied();
-    return currentUser_;
-}
-
-bool LoginManager::IsPlayerLoggedIn() const {
-    return dynamic_cast<Player*>(currentUser_) != nullptr;
-}
-
-bool LoginManager::IsAdminLoggedIn() const {
-    return dynamic_cast<Admin*>(currentUser_) != nullptr;
-}
-
-Player& LoginManager::CurrentPlayer() const {
-    User* user = CurrentUser();
-
-    Player* player = dynamic_cast<Player*>(user);
-    if (!player)
+void LoginManager::Login(Player& player)
+{
+    if (IsLoggedIn())
         throw PermissionDenied();
 
-    return *player;
+    currentPlayer_ = &player;
 }
-Admin& LoginManager::CurrentAdmin() const{
-    User* user = CurrentUser();
 
-    Admin* admin = dynamic_cast<Admin*>(user);
-    if (!admin)
+void LoginManager::Login(Admin& admin)
+{
+    if (IsLoggedIn())
         throw PermissionDenied();
 
-    return *admin;
+    currentAdmin_ = &admin;
+}
+
+void LoginManager::Logout()
+{
+    if (!IsLoggedIn())
+        throw PermissionDenied();
+
+    currentPlayer_ = nullptr;
+    currentAdmin_ = nullptr;
+}
+
+bool LoginManager::IsLoggedIn() const
+{
+    return currentPlayer_ != nullptr || currentAdmin_ != nullptr;
+}
+
+bool LoginManager::IsPlayerLoggedIn() const
+{
+    return currentPlayer_ != nullptr;
+}
+
+bool LoginManager::IsAdminLoggedIn() const
+{
+    return currentAdmin_ != nullptr;
+}
+
+Player& LoginManager::CurrentPlayer()
+{
+    if (currentPlayer_ == nullptr)
+        throw PermissionDenied();
+
+    return *currentPlayer_;
+}
+
+const Player& LoginManager::CurrentPlayer() const
+{
+    if (currentPlayer_ == nullptr) {
+        throw PermissionDenied();
+    }
+
+    return *currentPlayer_;
+}
+
+Admin& LoginManager::CurrentAdmin()
+{
+    if (currentAdmin_ == nullptr)
+        throw PermissionDenied();
+
+    return *currentAdmin_;
+}
+
+const Admin& LoginManager::CurrentAdmin () const
+{
+    if (currentAdmin_ == nullptr)
+        throw PermissionDenied();
+
+    return *currentAdmin_;
+}
+
+User& LoginManager::CurrentUser()
+{
+    if (currentPlayer_ != nullptr)
+        return *currentPlayer_;
+
+    if (currentAdmin_ != nullptr)
+        return *currentAdmin_;
+
+    throw PermissionDenied();
 }

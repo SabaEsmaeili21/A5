@@ -31,12 +31,31 @@ void GameSystem::Register(string username, string password){
 }
 
 void GameSystem::Login(string username, string password){
-    if(login_.IsLoggedIn())
+    if (login_.IsLoggedIn())
         throw PermissionDenied();
-    User* user = usersManager_.FindUser(username);
-    if(!(user->CheckPassword(password)))
-        throw PermissionDenied();
-    login_.Login(*user);
+
+    if (usersManager_.PlayerExists(username)) {
+        Player& player =
+            usersManager_.FindPlayer(username);
+
+        if (!player.CheckPassword(password))
+            throw PermissionDenied();
+
+        login_.Login(player);
+        return;
+    }
+
+    if (usersManager_.AdminExists(username)) {
+        Admin& admin =
+            usersManager_.FindAdmin(username);
+
+        if (!admin.CheckPassword(password))
+            throw PermissionDenied();
+
+        login_.Login(admin);
+        return;
+    }
+    throw NotFound();
 }
 
 void GameSystem::Logout(){
@@ -65,23 +84,20 @@ void GameSystem::PostInvitation(std::string username, std::string matchTypeStr){
     if(usersManager_.AdminExists(username))
         throw PermissionDenied();
 
-    /*if(!usersManager_.PlayerExists(username))
-        throw NotFound();*/
-
     if(matchTypeStr != "casual" && matchTypeStr != "ranked")
         throw BadRequest();
     
     Player& sender = login_.CurrentPlayer();
     Player& receiver = usersManager_.FindPlayer(username);
     if(receiver.HasBlocked(sender.Username()))
-        return;
+        throw NotFound();
 
     invitationsManager_.AddInvitation(sender.Username(), username, GetMatchType.at(matchTypeStr));
 }
 
 void GameSystem::StartMatch(int invitationId){
     EnsurePlayerLoggedIn();
-    Invitation& invitation = invitationsManager_.Find(invitationId);
+    const Invitation& invitation = invitationsManager_.Find(invitationId);
     MatchType matchType = invitation.GetMatchType();
 
     Player& sender = usersManager_.FindPlayer(invitation.GetSenderUsername());
@@ -149,7 +165,6 @@ void GameSystem::ProcessMove(string actionStr){
         throw NotFound();
 
     Match& match = matchesManager_.Find(player.CurrentMatchId());
-    // Even if Match is abstract, you can still use a reference or pointer to Match.
     match.ProcessMove(GetMove.at(actionStr), player.Username());
     if(match.IsFinished())
         FinishMatch(match);
@@ -183,13 +198,13 @@ int GameSystem::CalculateXpChange(int xp1, int xp2){
     return std::max(5, static_cast<int>(deltaXp));
 }
 
-MatchStatusView GameSystem::MatchStatus(){
+MatchStatusView GameSystem::MatchStatus()const{
     EnsurePlayerLoggedIn();
-    Player& player = login_.CurrentPlayer();
+    const Player& player = login_.CurrentPlayer();
     if(!player.IsInGame())
         throw NotFound();
 
-    Match& match = matchesManager_.Find(player.CurrentMatchId());
+    const Match& match = matchesManager_.Find(player.CurrentMatchId());
     return match.MatchStatus(player.Username());
 }
 
@@ -197,7 +212,7 @@ void GameSystem::AddReport(std::string username, std::string reason){
     EnsurePlayerLoggedIn();
     if(reason.empty())
         throw BadRequest();
-    usersManager_.FindPlayer(username); //checking whether the player exists
+    usersManager_.FindPlayer(username);
     reportsManager_.AddReport(login_.CurrentPlayer().Username(), username, reason);
 }
 
@@ -211,14 +226,14 @@ ProfileView GameSystem::GetProfile(std::string username) const{
     if(usersManager_.AdminExists(username))
         throw PermissionDenied();
 
-    Player& player = usersManager_.FindPlayer(username);
+    const Player& player = usersManager_.FindPlayer(username);
 
     return player.GetProfile();
 }
 
 std::map<int, ReceivedInvitationView> GameSystem::GetReceivedInvitations() const{
     EnsurePlayerLoggedIn();
-    Player& player = login_.CurrentPlayer();
+    const Player& player = login_.CurrentPlayer();
     return invitationsManager_.GetReceivedInvitations(player.Username());
 }
 
@@ -238,13 +253,16 @@ void GameSystem::Block(std::string username, std::string status){
     if(usersManager_.AdminExists(username))
         throw BadRequest();
 
-    Player& player = usersManager_.FindPlayer(username);
+    if(!usersManager_.PlayerExists(username))
+        throw NotFound();
+
+    Player& currentPlayer = login_.CurrentPlayer();
 
     if(status == "blocked")
-        player.Block(username);
+        currentPlayer.Block(username);
     
     else if(status == "unblocked")
-        player.Unblock(username);
+        currentPlayer.Unblock(username);
 
     else
         throw BadRequest();
@@ -267,6 +285,8 @@ void GameSystem::ApplyPenalty(int reportId, std::string type, int amount, int nu
     }
     else
         throw BadRequest();
+        
+    reportsManager_.Delete(reportId);
 }
 
 void GameSystem::DismissReport(int reportId){

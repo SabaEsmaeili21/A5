@@ -2,8 +2,8 @@
 #define __PLAYERMATCHSTARTSTATE_HPP__
 
 struct PlayerMatchStartState {
-    int bullets = 3;
-    int health = 3;
+    int bullets;
+    int health;
 };
 
 #endif

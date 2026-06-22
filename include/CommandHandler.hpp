@@ -17,6 +17,7 @@ class CommandHandler{
     std::string HandleDelete(const Command&);
     std::string HandlePut(const Command&);
     std::string RequireArgument(const Command& command, std::string key);
+    SortOrder GetSortOrder(const Command& command) const;
 
 };
 #endif
